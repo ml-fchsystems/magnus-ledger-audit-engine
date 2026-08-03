@@ -10,86 +10,82 @@ Magnus Ledger Audit Engine is an enterprise-grade lead generation and technical 
 
  System Architecture
 
-┌───────────────────────────┐
-│ 1. Google Places API      │ ──> Paginated Search (Up to 60 leads/city)
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│ 2. Web Latency Ingestion  │ ──> DOM Scraper & Latency Benchmarker (ms)
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│ 3. Gemini 2.5 Flash Core  │ ──> Structural Audit + CRO Math Models
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│ 4. Google Workspace Matrix│ ──> Live Leads Feed Auto-Logging & Deduplication
-└─────────────┬─────────────┘
+┌───────────────────────────────────────────────────────┐
+│ 1. Google Places API                                  │
+│    • Paginated Search (Up to 60 leads/city)           │
+└───────────────────────────┬───────────────────────────┘
+                            │
+                            ▼
+┌───────────────────────────────────────────────────────┐
+│ 2. Web Latency Ingestion                              │
+│    • DOM Scraper & Latency Benchmarker (ms)           │
+└───────────────────────────┬───────────────────────────┘
+                            │
+                            ▼
+┌───────────────────────────────────────────────────────┐
+│ 3. Gemini 2.5 Flash Core                              │
+│    • Structural Audit + CRO Math Models               │
+└───────────────────────────┬───────────────────────────┘
+                            │
+                            ▼
+┌───────────────────────────────────────────────────────┐
+│ 4. Google Workspace Matrix                            │
+│    • Live Leads Feed Auto-Logging & Deduplication     │
+└───────────────────────────────────────────────────────┘
 
+1. Google Places API
+- Executes paginated searches across chosen cities.
 
-Pipeline Stage Details
+- Returns up to 60 business leads per search run.
 
-Google Places API (New)
+2. Web Latency Ingestion
+Scrapes DOM elements from lead websites.
 
-Executes paginated search queries across targeted municipalities.
+Measures response times in milliseconds to locate site slowdowns.
 
-Filters and returns up to 60 qualified business leads per city run.
+3. Gemini 2.5 Flash Core
+- Audits site structure against extracted page code.
 
-Web Latency Ingestion
+- Calculates conversion loss scores using statistical models.
 
-Scrapes DOM elements and evaluates core site response metrics in milliseconds.
+- Drafts custom sales emails and Loom video scripts.
 
-Identifies initial technical bottlenecks and rendering friction.
+4. Google Workspace Matrix
+- Removes duplicate records from lead lists automatically.
 
-Gemini 2.5 Flash Core
+- Writes clean lead data into Google Sheets.
 
-Runs structural content audits against extracted DOM payloads.
+Key Features
+- Paginated Discovery: Processes nextPageToken tags to find HVAC, roofing, and plumbing contractors.
 
-Applies conversion rate optimization (CRO) scoring models to produce audit output, customized outreach emails, and video scripts.
+- Automatic Deduplication: Saves normalized URLs in cache. This step prevents repeated scraping and API rate limits.
 
-Google Workspace Matrix
+- Speed Benchmarking: Records page load speed. It flags sites with load times over two seconds.
 
-Automatically deduplicates incoming lead lists.
+- Structured JSON Audits: Enforces strict schemas in Gemini 2.5 Flash to generate:
 
-Records lead data and audit metrics directly to Google Sheets for real-time tracking.
+  - Business vertical classification
 
- Key Features
+  - Conversion barrier reports (Form bloat, broken mobile views)
 
-Paginated Multi-City Discovery: Native nextPageToken processing targeting local service verticals (HVAC, Roofing, Plumbing).
+  - Cold outreach emails (Under 100 words)
 
-Automated Deduplication Engine: Caches normalized URLs locally to prevent redundant scraping cycles and rate-limiting.
+  - Timed Loom video scripts (60 seconds)
 
-Ingestion Latency Benchmarking: Captures DOM load speeds to pinpoint performance drop-offs (>2.0s latency thresholds).
+Security & Environment
+This system stores API keys inside script properties to block public access.
 
-Gemini 2.5 Flash Structured JSON Output: Uses strict schema validation to generate:
+- Places API Key: Saved under PLACES_API_KEY in PropertiesService.
 
-Industry Vertical Identification
+- Gemini API Key: Saved under AI_STUDIO_API_KEY in PropertiesService.
 
-Conversion Friction Gap Analysis (Form proliferation, mobile viewport bugs)
+- No Hardcoded Secrets: Scripts pull active keys at runtime.
 
-Low-Pressure Cold Outreach Drafts (<100 words, high response hook)
+Setup & Usage
+- Configure Sheets: Create two tabs named Configuration and Live Leads Feed. Add keywords to cell A2 and cities to column B.
 
-Sequential 60-Second Loom Video Scripts with explicit timecodes
+- Save API Keys: Open Project Settings in Google Apps Script. Add PLACES_API_KEY and AI_STUDIO_API_KEY to Script Properties.
 
- Security & Environment Architecture
+- Run Pipeline: Refresh your sheet menu. Select Magnus Ledger Agent -> Run Lead Audit Pipeline.
 
-To protect API credentials from public exposure, this engine uses zero-trust script property bindings:
-
-Google Cloud Places API Key: Stored under PLACES_API_KEY via PropertiesService.
-
-Gemini AI Studio API Key: Stored under AI_STUDIO_API_KEY via PropertiesService.
-
-No Hardcoded Keys: Code files only reference key parameters dynamically at runtime.
-
- Setup & Usage
-
-Sheet Setup: Create two tabs: Configuration (Keywords in A2, Cities in Column B) and Live Leads Feed.
-
-Key Storage: Open Project Settings (⚙️) in Google Apps Script and add PLACES_API_KEY and AI_STUDIO_API_KEY to Script Properties.
-
-Execution: Refresh your Google Sheet and select 🤖 Magnus Ledger Agent -> ⚡ Run Lead Audit Pipeline.
-
-Architected by Andrew Benedict | Founder & Lead Systems Architect @ Magnus Ledger
+Architected by Andrew Benedict | Founder & Lead Systems Architect at Magnus Ledger
