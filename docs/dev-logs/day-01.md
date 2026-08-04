@@ -23,7 +23,7 @@ The V1 prototype operated as a monolithic Google Apps Script macro that attempte
 |                                                                         |
 |  [Google Places API] -> [GAS DOM Fetch] -> [Gemini API] -> [GAS Sheet]  |
 |                                                                         |
-   Root Failures: Silent URL drops, HTTP 429 Token Traps, 6-Min Timeout |
+|   Root Failures: Silent URL drops, HTTP 429 Token Traps, 6-Min Timeout  |
 |                     Cloudflare Egress Bans, Unhydrated SPA HTML         |
 +-------------------------------------------------------------------------+
 
@@ -244,3 +244,14 @@ Configure CRON automation triggers for scheduled lead acquisition runs.
 Output validated diagnostic results directly to Google Sheets via official REST API endpoints.
 
 5.2 Performance Benchmark Targets
+## 5.2 Performance Benchmark Targets
+
+| Operational Metric | Legacy Prototype (V1.0) | Decoupled Engine (V2.0-PROD) | Measured Metric Delta |
+| :--- | :--- | :--- | :--- |
+| **Target-to-Audit Latency** | $> 30.0\text{ s}$ | $< 5.0\text{ s}$ | $\sim 83\%$ Latency Reduction |
+| **Pipeline Success Rate** | $\approx 60\%$ (Egress drops) | $> 95\%$ | $+35\%$ Reliability Increase |
+| **Batch Lead Capacity** | $< 10\text{ leads/run}$ (GAS timeout) | $50+\text{ leads/run}$ | $5\times$ Throughput Increase |
+| **Schema Validation Error Rate** | $\approx 18\%$ (Malformed JSON) | $0.0\%$ (EBNF constrained) | Elimination of Schema Failures |
+
+
+Quick Rules for Formatting Tables on GitHub
